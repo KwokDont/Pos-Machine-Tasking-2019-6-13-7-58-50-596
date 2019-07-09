@@ -1,4 +1,4 @@
-const drawReceipt = require('../js-workspace/createReceipt');
+const createReceipt = require('../js-workspace/createReceipt');
 
 // it('should return the menu collection when invoke getMenuFromDB',()=>{
 // 	//given
@@ -27,11 +27,29 @@ const drawReceipt = require('../js-workspace/createReceipt');
 // 	expect(result).toBe(true);
 // })
 
-it('should return receipt when invoke drawReceipt given ["0001","0005"]',()=>{
+// it('should return receipt when invoke drawReceipt given ["0001","0005"]',()=>{
+// 	//given
+// 	const arr = ['0001','0005'];
+// 	//when
+// 	const result = drawReceipt(arr);
+// 	//then
+// 	expect(result).toBe('Receipts\n-----------------------------------------------\nCoca Cola                    3        1\nDr Pepper                    7        1\n-----------------------------------------------\nPrice:10');
+// })
+
+it('should return receipt when invoke createReceipt given ["0001","0005"]',()=>{
 	//given
 	const arr = ['0001','0005'];
 	//when
-	const result = drawReceipt(arr);
+	const result = createReceipt(arr);
 	//then
 	expect(result).toBe('Receipts\n-----------------------------------------------\nCoca Cola                    3        1\nDr Pepper                    7        1\n-----------------------------------------------\nPrice:10');
+})
+
+it('should return error when invoke createReceipt given ["0001","asdw"]',()=>{
+	//given
+	const arr = ['0001','asdw'];
+	//when
+	const result = createReceipt(arr);
+	//then
+	expect(result).toBe("[ERROR]:some barcodes doesn't exist!");
 })

@@ -52,7 +52,14 @@ function drawReceipt(barcodes){
 	return result;
 }
 
-module.exports = drawReceipt;
+function createReceipt(barcodes){
+	if(!isBarcodeExist(barcodes)){
+		return "[ERROR]:some barcodes doesn't exist!";
+	}else{
+		return drawReceipt(barcodes);
+	}
+}
 
-'Receipts\n-----------------------------------------------\nCoca Cola                    3        1\nDr Pepper                    7        1\n-----------------------------------------------\nPrice:10'
+module.exports = createReceipt;
+
 
