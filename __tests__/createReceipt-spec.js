@@ -1,4 +1,4 @@
-const isBarcodeExist = require('../js-workspace/createReceipt');
+const drawReceipt = require('../js-workspace/createReceipt');
 
 // it('should return the menu collection when invoke getMenuFromDB',()=>{
 // 	//given
@@ -18,11 +18,20 @@ const isBarcodeExist = require('../js-workspace/createReceipt');
 // ]);
 // })
 
-it('should be false when invoke isBarcodeExist given ["001","002"]',()=>{
+// it('should be false when invoke isBarcodeExist given ["0001","0002"]',()=>{
+// 	//given
+// 	const arr = ['0001','0002'];
+// 	//when
+// 	const result = isBarcodeExist(arr);
+// 	//then
+// 	expect(result).toBe(true);
+// })
+
+it('should return receipt when invoke drawReceipt given ["0001","0005"]',()=>{
 	//given
-	const arr = ['0001','0002'];
+	const arr = ['0001','0005'];
 	//when
-	const result = isBarcodeExist(arr);
+	const result = drawReceipt(arr);
 	//then
-	expect(result).toBe(true);
+	expect(result).toBe('Receipts\n-----------------------------------------------\nCoca Cola                    3        1\nDr Pepper                    7        1\n-----------------------------------------------\nPrice:10');
 })

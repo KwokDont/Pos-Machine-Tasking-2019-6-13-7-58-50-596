@@ -14,17 +14,45 @@ function getMenuFromDB(){
 }
 
 function isBarcodeExist(barcodes){
+	var flag = true;
 	var menuList = getMenuFromDB();
 	var na = menuList.map(function(v){return v['id'];});
 	barcodes.forEach(v =>{
-		for(let i = 0 ; i < na.length ; i++){
-			if(v != na[i]){
-				return false;
-			}
+		if(na.indexOf(v) == -1){
+			flag = false;
 		}
 	});
-	return true;
+	return flag;
 }
 
-module.exports = isBarcodeExist;
+function drawReceipt(barcodes){
+	var menuList = getMenuFromDB();
+	var na = menuList.map(function(v){return v['id'];});
+	var total = 0;
+	var order = new Array();
+	var result = 'Receipts'+'\n'+'-----------------------------------------------'+'\n';
+	barcodes.forEach(v =>{
+		menuList.forEach(n=>{
+			if(v == n['id']){
+				var index = order.indexOf(n['name']);
+				if(index > -1){
+					order[index]['num']++;
+					order[index]['total'] += n['price'];
+				}else{
+					order.push({'name':n['name'],'price':n['price'],'num':1});
+				}
+			}
+		});
+	});
+	order.forEach(v=> {
+		result += v['name']+'                    '+v['price']+'        '+v['num']+'\n';
+		total += v['price'] * v['num'];
+	});
+	result += '-----------------------------------------------'+'\n'+'Price:'+total;
+	return result;
+}
+
+module.exports = drawReceipt;
+
+'Receipts\n-----------------------------------------------\nCoca Cola                    3        1\nDr Pepper                    7        1\n-----------------------------------------------\nPrice:10'
 
