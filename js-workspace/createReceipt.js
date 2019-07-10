@@ -14,11 +14,11 @@ function getMenuFromDB(){
 }
 
 function isBarcodeExist(barcodes){
-	var flag = true;
-	var menuList = getMenuFromDB();
-	var na = menuList.map(function(v){return v['id'];});
-	barcodes.forEach(v =>{
-		if(na.indexOf(v) == -1){
+	let flag = true;
+	const menuList = getMenuFromDB();
+	const idList = menuList.map(function(menuItem){return menuItem['id'];});
+	barcodes.forEach(barcode => {
+		if(idList.indexOf(barcode) == -1){
 			flag = false;
 		}
 	});
@@ -26,30 +26,34 @@ function isBarcodeExist(barcodes){
 }
 
 function drawReceipt(barcodes){
-	var menuList = getMenuFromDB();
-	var na = menuList.map(function(v){return v['id'];});
-	var total = 0;
-	var order = new Array();
-	var result = 'Receipts'+'\n'+'-----------------------------------------------'+'\n';
-	barcodes.forEach(v =>{
-		menuList.forEach(n=>{
-			if(v == n['id']){
-				var index = order.indexOf(n['name']);
+	const menuList = getMenuFromDB();
+	let total = 0;
+	let result = 'Receipts\n' + '-----------------------------------------------\n';
+	let order = getOrderList(barcodes,menuList);
+	order.forEach(orderItem => {
+		result += orderItem['name'] + '                    ' + orderItem['price'] + '        ' + orderItem['num'] + '\n';
+		total += orderItem['price'] * orderItem['num'];
+	});
+	result += '-----------------------------------------------\n' + 'Price:' + total;
+	return result;
+}
+
+function getOrderList(barcodes,menuList){
+	let order = new Array();
+	barcodes.forEach(barcode => {
+		menuList.forEach(menuItem => {
+			if(barcode == menuItem['id']){
+				let index = order.indexOf(menuItem['name']);
 				if(index > -1){
 					order[index]['num']++;
-					order[index]['total'] += n['price'];
+					order[index]['total'] += menuItem['price'];
 				}else{
-					order.push({'name':n['name'],'price':n['price'],'num':1});
+					order.push({'name':menuItem['name'],'price':menuItem['price'],'num':1});
 				}
 			}
 		});
 	});
-	order.forEach(v=> {
-		result += v['name']+'                    '+v['price']+'        '+v['num']+'\n';
-		total += v['price'] * v['num'];
-	});
-	result += '-----------------------------------------------'+'\n'+'Price:'+total;
-	return result;
+	return order;
 }
 
 function createReceipt(barcodes){
