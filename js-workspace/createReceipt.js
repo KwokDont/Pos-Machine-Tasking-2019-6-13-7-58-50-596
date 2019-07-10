@@ -9,14 +9,13 @@ const Menu = [{"id": "0001", "name" : "Coca Cola", "price": 3},
     {"id": "0009", "name" : "Diet Dr Pepper", "price": 11},
     {"id": "0010", "name" : "Fanta", "price": 12}];
 
-function getMenuFromDB(){
-	return Menu;
-}
+const getMenuFromDB = () => Menu;
 
-function isBarcodeExist(barcodes){
+
+const isBarcodeExist = barcodes => {
 	let flag = true;
 	const menuList = getMenuFromDB();
-	const idList = menuList.map(function(menuItem){return menuItem['id'];});
+	const idList = menuList.map(menuItem =>menuItem['id']);
 	barcodes.forEach(barcode => {
 		if(idList.indexOf(barcode) == -1){
 			flag = false;
@@ -25,7 +24,7 @@ function isBarcodeExist(barcodes){
 	return flag;
 }
 
-function drawReceipt(barcodes){
+const drawReceipt = barcodes => {
 	const menuList = getMenuFromDB();
 	let total = 0;
 	let result = 'Receipts\n' + '-----------------------------------------------\n';
@@ -38,12 +37,13 @@ function drawReceipt(barcodes){
 	return result;
 }
 
-function getOrderList(barcodes,menuList){
+const getOrderList = (barcodes,menuList) => {
 	let order = new Array();
 	barcodes.forEach(barcode => {
 		menuList.forEach(menuItem => {
+			const nameList = order.map(orderItem =>orderItem['name']);
 			if(barcode == menuItem['id']){
-				let index = order.indexOf(menuItem['name']);
+				let index = nameList.indexOf(menuItem['name']);
 				if(index > -1){
 					order[index]['num']++;
 					order[index]['total'] += menuItem['price'];
@@ -56,7 +56,7 @@ function getOrderList(barcodes,menuList){
 	return order;
 }
 
-function createReceipt(barcodes){
+const createReceipt = barcodes => {
 	if(!isBarcodeExist(barcodes)){
 		return "[ERROR]:some barcodes doesn't exist!";
 	}else{

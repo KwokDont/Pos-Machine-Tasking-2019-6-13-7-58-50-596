@@ -1,12 +1,12 @@
 const createReceipt = require('../js-workspace/createReceipt');
 
-it('should return receipt when invoke createReceipt given ["0001","0005"]',()=>{
+it('should return receipt when invoke createReceipt given ["0001","0005","0001"]',()=>{
 	//given
-	const arr = ['0001','0005'];
+	const arr = ['0001','0005','0001'];
 	//when
 	const result = createReceipt(arr);
 	//then
-	expect(result).toBe('Receipts\n-----------------------------------------------\nCoca Cola                    3        1\nDr Pepper                    7        1\n-----------------------------------------------\nPrice:10');
+	expect(result).toBe('Receipts\n-----------------------------------------------\nCoca Cola                    3        2\nDr Pepper                    7        1\n-----------------------------------------------\nPrice:13');
 })
 
 it('should return error when invoke createReceipt given ["0001","asdw"]',()=>{
